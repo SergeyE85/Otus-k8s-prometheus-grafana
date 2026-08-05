@@ -1,0 +1,53 @@
+﻿apiVersion: v1
+kind: Namespace
+metadata:
+  name: otus-microservices-k8s-deployment-service-ingress-users
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-deployment-users
+  namespace: otus-microservices-k8s-deployment-service-ingress-users
+  labels:
+    app: k8s-deployment-service-ingress-users.webapi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-deployment-service-ingress-users.webapi
+  template:
+    metadata:
+      labels:
+        app: k8s-deployment-service-ingress-users.webapi
+    spec:
+      containers:
+      - name: k8s-deployment-service-ingress-webapi-users
+        image: egorovsv85/otususerswebapplication:v22.0
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials  # Имя секрета
+              key: POSTGRES_PASSWORD   # Ключ внутри секрета
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_USER
+        - name: POSTGRES_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_PORT
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_HOST              
+        ports:
+        - containerPort: 8000

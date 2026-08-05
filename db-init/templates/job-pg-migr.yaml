@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-migrations
+  namespace: otus-microservices-k8s-deployment-service-ingress-users
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: download-driver
+        image: curlimages/curl:8.5.0
+        command: ["curl", "-L", "https://postgresql.org", "-o", "/shared-libs/postgresql-42.7.2.jar"]
+        volumeMounts:
+          - name: driver-volume
+            mountPath: /shared-libs
+      - name: wait-for-postgres
+        image: busybox:1.36
+        command:
+          - sh
+          - -c
+          - |
+            echo "Waiting for PostgreSQL..."
+            until nc -z pg-release-postgresql 5432; do
+              echo "PostgreSQL not ready, retrying in 2 seconds..."
+              sleep 2
+            done
+            echo "PostgreSQL is ready!"
+      containers:
+      - name: migr-application
+        image: egorovsv85/otususersinitdbconsoleapp:v8.0
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-credentials  # Имя секрета
+              key: POSTGRES_PASSWORD   # Ключ внутри секрета
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_USER
+        - name: POSTGRES_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_PORT
+        - name: POSTGRES_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: db-config  # Имя ConfigMap
+              key: POSTGRES_HOST              
+      restartPolicy: OnFailure  # Повторить задачу только в случае ошибки
+      volumes:
+        - name: driver-volume
+          emptyDir: {}

@@ -1,0 +1,20 @@
+﻿apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webapi-ingress-users
+  namespace: otus-microservices-k8s-deployment-service-ingress-users
+  labels:
+    app: k8s-deployment-service-ingress-users.webapi
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: arch.homework
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: webapi-service-users
+            port:
+              number: 8801

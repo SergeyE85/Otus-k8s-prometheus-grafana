@@ -15,8 +15,8 @@ spec:
 #  jobLabel: stack
   namespaceSelector:
     matchNames:
-      - default
+      - otus-microservices-k8s-deployment-service-ingress-users
   selector:
     matchLabels:
-      app: metrics-demo
+      app: k8s-deployment-service-ingress-users.webapi
   
