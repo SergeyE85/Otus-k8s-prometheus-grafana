@@ -4,12 +4,12 @@ metadata:
   name: metrics-demo-monitor
   labels:
     app: metrics-demo-monitor
-    
+    release: test-release
 spec:
   endpoints:
-    - port: metrics
+    - port: http-metrics
       scrapeTimeout: 30s
-      path: /actuator/prometheus     
+      path: /metrics
       honorLabels: true
       scheme: http
 #  jobLabel: stack

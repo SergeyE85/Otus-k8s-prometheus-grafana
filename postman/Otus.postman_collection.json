@@ -1,0 +1,169 @@
+{
+  "info": {
+    "_postman_id": "000aa7b0-ffd8-4a6b-a7f5-08283bdab31f",
+    "name": "Otus",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8481833"
+  },
+  "item": [
+    {
+      "name": "GetAllUsers",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{baseHost}}:{{basePort}}/users/all",
+          "protocol": "http",
+          "host": [
+            "{{baseHost}}"
+          ],
+          "port": "{{basePort}}",
+          "path": [
+            "users",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetUsersBatch",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://{{baseHost}}:{{basePort}}/users/batch?skip=2&batchSize=1",
+          "protocol": "http",
+          "host": [
+            "{{baseHost}}"
+          ],
+          "port": "{{basePort}}",
+          "path": [
+            "users",
+            "batch"
+          ],
+          "query": [
+            {
+              "key": "skip",
+              "value": "2"
+            },
+            {
+              "key": "batchSize",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetUser",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/users/all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "users",
+            "all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateUser",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json-patch+json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[\r\n    {\r\n        \"op\": \"replace\",\r\n        \"path\": \"/Name\",\r\n        \"value\": \"Ultra Laptop\"\r\n    }\r\n]",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/users/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "users",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateUser",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Name\": \"test 1\",\r\n    \"Email\": \"test1@mail.ru\",\r\n    \"BirthDate\": \"24 April 2002 00:00:00\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://{{baseHost}}:{{basePort}}/users",
+          "protocol": "http",
+          "host": [
+            "{{baseHost}}"
+          ],
+          "port": "{{basePort}}",
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteUser",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://{{baseHost}}:{{basePort}}/users/1",
+          "protocol": "http",
+          "host": [
+            "{{baseHost}}"
+          ],
+          "port": "{{basePort}}",
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
