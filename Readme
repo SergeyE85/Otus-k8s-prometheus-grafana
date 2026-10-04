@@ -16,7 +16,7 @@ helm install pg-release oci://registry-1.docker.io/bitnamicharts/postgresql --se
 4. Перейти в корень.
 
 5. Выполнить (с рекомендациями отсюда https://kubernetes.github.io/ingress-nginx/user-guide/monitoring/)
-kubectl create namespace m && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update
+kubectl create namespace otus-microservices-k8s-deployment-service-ingress-users && helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/ && helm repo update
 helm install nginx-release ingress-nginx/ingress-nginx --namespace otus-microservices-k8s-deployment-service-ingress-users -f nginx-ingress.yaml --set controller.metrics.enabled=true --set-string controller.podAnnotations."prometheus\.io/scrape"="true" --set-string controller.podAnnotations."prometheus\.io/port"="10254"
 
 6. Перейти в db-init чарт.
@@ -50,3 +50,4 @@ kubectl apply -f service-monitor.yaml -n otus-microservices-k8s-deployment-servi
 kubectl port-forward service/prometheus-operated 9090 -n otus-microservices-k8s-deployment-service-ingress-users
 
 16. Запустить утилиту нагрузочного тестирования для api по адресу arch.homework:8080
+newman run Otus.postman_collection.json -e OtusUsersApiEnvironment.postman_environment.json
